@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: nutricoach-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nutricoach
+      POSTGRES_PASSWORD: nutricoach_password
+      POSTGRES_DB: nutricoach
+    ports:
+      - "5432:5432"
+    volumes:
+      - nutricoach_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nutricoach -d nutricoach"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  nutricoach_pgdata:
